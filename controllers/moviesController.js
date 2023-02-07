@@ -63,25 +63,25 @@ const controller = {
     },
     createMovie: async (req, res) => {
         try {
-            const title = req.body.title;
-            const length = req.body.length;
-            const rating = req.body.rating;
-            const releaseDate = req.body.releaseDate;
-            const image = req.file.path;
+            const titleInBody = req.body.title;
+            const lengthInBody = req.body.length;
+            const ratingInBody = req.body.rating;
+            const releaseDateInBody = req.body.releaseDate;
+            const imageInBody = req.file.path;
 
-            if (!(title || length || rating || releaseDate || image)) {
+            if (!(titleInBody || lengthInBody || ratingInBody || releaseDateInBody || imageInBody)) {
                 res.status(400).json({ msg: 'Please complete all the text fields' })
             }
 
             const movieInBody = {
-                title: req.body.title,
-                length: req.body.length,
-                rating: req.body.rating,
-                releaseDate: req.body.releaseDate,
-                image: req.file.path,
+                title: titleInBody,
+                length: lengthInBody,
+                rating: ratingInBody,
+                releaseDate: releaseDateInBody,
+                image: imageInBody,
             }
 
-             const newMovie = await Movie.create(movieInBody)
+            const newMovie = await Movie.create(movieInBody)
             return res.status(201).json(newMovie);
         } catch (error) {
             return res.json({ msg: `Error while processing the creation of a movie: ${error}` })
@@ -112,7 +112,7 @@ const controller = {
                 actors: movieToUpdate.actors
             }
 
-            const updatedMovie = await Movie.findByIdAndUpdate(movieIdToUpdate, data, {new: true})
+            const updatedMovie = await Movie.findByIdAndUpdate(movieIdToUpdate, data, { new: true })
 
             return res.status(200).json(updatedMovie)
         } catch (error) {
@@ -129,13 +129,16 @@ const controller = {
                 return res.status(400).json({ msg: 'Movie ID invalid' })
             }
 
-            const movieToDelete = await Movie.deleteOne({ _id: movieIdToDelete })
+            const movieToDelete = await Movie.findById(movieIdToDelete)
 
             if (!movieToDelete) {
                 return res.status(404).json({ msg: 'Movie not found' })
             }
 
-            return res.status(200).json({ msg: 'Movie successfully deleted' })
+           await Movie.findByIdAndRemove(movieIdToDelete)
+
+            return res.status(200).json({ msg: 'Movie successfully deleted', id: movieIdToDelete })
+
         } catch (error) {
             return res.json({ msg: `Error while processing the elimination of a movie: ${error}` })
         }
