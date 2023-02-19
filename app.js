@@ -26,6 +26,7 @@ app.get('/', (req, res) => {
 })
 
 mongoose.Promise = global.Promise;
+mongoose.set('strictQuery', false)
 mongoose.connect(process.env.MONGO_URI)
     .then(() => {
         console.log('Mongo DB Connected');
