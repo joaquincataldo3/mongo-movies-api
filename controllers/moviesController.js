@@ -5,6 +5,9 @@ const controller = {
     // find all movies
     allMovies: async (req, res) => {
         try {
+            
+            return res.json({msg: 'live'})
+
             // making the pagination
             const pages = req.query.p; // catching the req.query
             const filterByQueryParams = req.query.f;
