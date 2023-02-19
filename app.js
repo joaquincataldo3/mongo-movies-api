@@ -27,7 +27,6 @@ app.get('/', (req, res) => {
 
 mongoose.Promise = global.Promise;
 mongoose.connect(process.env.MONGO_URI)
-// returns a promise
     .then(() => {
         console.log('Mongo DB Connected');
         const port = process.env.PORT || 3010;
