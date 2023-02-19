@@ -5,25 +5,25 @@ const Types = Schema.Types;
 // setting up new mongoose schema
 const movieSchema = new Schema({
     title: {
-        String,
+        type: String,
         required: true
     },
     length: {
-        Number,
+        type: Number,
         required: true
     },
     rating: {
-        Number,
+        type: Number,
         required: true,
         min: 1,
         max: 10
     },
     releaseDate: {
-        Date,
+        type: Date,
         required: true
     },
     image: {
-        String,
+        type: String,
         required: true     
     },
     genre: {
@@ -33,7 +33,7 @@ const movieSchema = new Schema({
         type: Types.ObjectId, ref: 'Actor'   
     }],
     createdAt: {
-        Date,
+        type: Date,
         default: () => Date.now(), // every time we create a new movie, it will create the date automatically
         immutable: true // not modifiable
     }

@@ -4,13 +4,15 @@ const uploadImages = require('../middlewares/movieMulterMiddleware');
 const router = express.Router();
 
 router.get('/all', controller.allMovies);
-/* router.get('/movie-created', controller.createMovie); */
-
-router.get('/all', controller.allMovies);
-
 router.get('/:id', controller.findOne);
 
-// create new movie
-router.post('/new', uploadImages.single("image"), controller.createMovie);
+router.post('/newMovie', controller.createMovie);
+
+router.put('/update/:id', controller.updateMovie);
+
+router.delete('/delete/:id', controller.deleteMovie);
+
+
+
 
 module.exports = router;

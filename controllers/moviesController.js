@@ -63,11 +63,15 @@ const controller = {
     },
     createMovie: async (req, res) => {
         try {
-            const titleInBody = req.body.title;
+
+       
+
+          const titleInBody = req.body.title;
             const lengthInBody = req.body.length;
             const ratingInBody = req.body.rating;
             const releaseDateInBody = req.body.releaseDate;
-            const imageInBody = req.file.path;
+            const imageInBody = req.file.path; 
+
 
             if (!(titleInBody || lengthInBody || ratingInBody || releaseDateInBody || imageInBody)) {
                 res.status(400).json({ msg: 'Please complete all the text fields' })
@@ -96,11 +100,13 @@ const controller = {
                 return res.status(400).json({ msg: 'Movie ID invalid' })
             }
 
-            const movieToUpdate = await Movie.findById(movieIdToUpdate)
+            const movieToFind = await Movie.findById(movieIdToUpdate)
 
-            if (!movieToUpdate) {
+            if(!movieToFind) {           
                 return res.status(404).json({ msg: 'Movie not found' })
             }
+
+            const movieToUpdate = movieToFind;
 
             const data = {
                 title: req.body.title ? req.body.title : movieToUpdate.title,
@@ -116,6 +122,7 @@ const controller = {
 
             return res.status(200).json(updatedMovie)
         } catch (error) {
+            console.log(error)
             return res.json({ msg: `Error while processing the update of a movie: ${error}` })
         }
 
@@ -129,17 +136,12 @@ const controller = {
                 return res.status(400).json({ msg: 'Movie ID invalid' })
             }
 
-            const movieToDelete = await Movie.findById(movieIdToDelete)
-
-            if (!movieToDelete) {
-                return res.status(404).json({ msg: 'Movie not found' })
-            }
-
-           await Movie.findByIdAndRemove(movieIdToDelete)
+            await Movie.findByIdAndRemove(movieIdToDelete)
 
             return res.status(200).json({ msg: 'Movie successfully deleted', id: movieIdToDelete })
 
         } catch (error) {
+            console.log(error)
             return res.json({ msg: `Error while processing the elimination of a movie: ${error}` })
         }
 

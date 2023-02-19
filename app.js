@@ -1,29 +1,36 @@
+require('dotenv').config();
 const express = require('express');
 const mongoose = require('mongoose');
 const path = require('path')
 const moviesRouter = require('./routers/moviesRoutes');
 const actorsRouter = require('./routers/actorRoutes');
-const movieActorRouter = require('./routers/actorMovieRoutes');
+const genreRouter = require('./routers/genreRoutes');
+
 
 const app = express();
 
-const uri = "mongodb+srv://joacocataldo:Hola12345-@moviesapi.m1qlgkc.mongodb.net/?retryWrites=true&w=majority";
+
+app.set('view engine', 'ejs')
 
 app.use('/movies-images', express.static(path.join(__dirname, "./imagesUploads")));
 
 app.use(express.urlencoded({extended: false}));
 app.use(express.json());
 
-app.use('/movies', moviesRouter);
-
 app.use('/actors', actorsRouter);
+app.use('/movies', moviesRouter);
+app.use('/genres', genreRouter);
 
-mongoose.Promise = global.Promise; //making mongoose global. 
-mongoose.connect(uri)
+app.get('/', (req, res) => {
+    return res.render('../index.ejs')
+})
+
+mongoose.Promise = global.Promise;
+mongoose.connect(process.env.MONGO_URI)
 // returns a promise
     .then(() => {
         console.log('Mongo DB Connected');
-        const port = 3010;
+        const port = process.env.PORT || 3010;
         app.listen(port, () => {
         console.log(`Server opened on ${port}`);
 })

@@ -1,13 +1,9 @@
 const {mongoose, Schema, Types} = require('mongoose');
-const ObjectID = Types.ObjectId;
+
 
 // setting up new mongoose schema
 const ActorSchema = new Schema({
-    name: {
-        type: String,
-        required: true
-    },
-    image: {
+    fullName: {
         type: String,
         required: true
     },
