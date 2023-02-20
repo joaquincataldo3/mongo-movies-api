@@ -5,8 +5,6 @@ const controller = {
     // find all movies
     allMovies: async (req, res) => {
         try {
-
-
             // making the pagination
             const pages = req.query.p; // catching the req.query
             const filterByQueryParams = req.query.f;
@@ -15,7 +13,8 @@ const controller = {
                 const allMovies = await Movie
                     .find()
                     .skip(pages * moviePerPage) // pages could be 0, 1, 2 etc. times the movie per page
-                    .limit(3);  // limiting it to 3 movies per page    
+                    .limit(3)
+                    .populate('actors');  // limiting it to 3 movies per page    
                 return res.json(allMovies);
             }
             else if (filterByQueryParams == "rating") {
@@ -23,7 +22,8 @@ const controller = {
                     .find()
                     .skip(pages * moviePerPage)
                     .limit(3)
-                    .sort({ rating: -1 });
+                    .sort({ rating: -1 })
+                    .populate('actors');
                 return res.json(allMoviesFilteredByRating);
             }
             else if (filterByQueryParams == "length") {
@@ -31,7 +31,8 @@ const controller = {
                     .find()
                     .skip(pages * moviePerPage)
                     .limit(3)
-                    .sort({ length: -1 });
+                    .sort({ length: -1 })
+                    .populate('actors');
                 return res.json(allMoviesFilteredByLength);
             }
         } catch (error) {
