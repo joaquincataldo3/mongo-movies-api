@@ -21,7 +21,7 @@ app.use('/movies', moviesRouter);
 app.use('/genres', genreRouter);
 
 app.get('/', (req, res) => {
-    return res.render('../index.ejs')
+    return res.json({msg: 'Success'})
 })
 
 console.log(MONGO_URI)
@@ -31,7 +31,7 @@ mongoose.set('strictQuery', false)
 mongoose.connect(MONGO_URI)
     .then(() => {
         console.log('Mongo DB Connected');
-        const PORT = process.env.PORT || 3010;
+        const PORT = process.env.PORT || 3000;
         app.listen(PORT, () => {
         console.log(`Server opened on ${PORT}`);
 })
