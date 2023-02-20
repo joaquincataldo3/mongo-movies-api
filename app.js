@@ -30,9 +30,9 @@ mongoose.set('strictQuery', false)
 mongoose.connect(process.env.MONGO_URI)
     .then(() => {
         console.log('Mongo DB Connected');
-        const port = process.env.PORT || 3010;
-        app.listen(port, () => {
-        console.log(`Server opened on ${port}`);
+        const PORT = process.env.PORT || 3010;
+        app.listen(PORT, () => {
+        console.log(`Server opened on ${PORT}`);
 })
     })
     .catch(err => {
