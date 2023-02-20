@@ -1,7 +1,7 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const path = require('path')
-require("dotenv").config({ path: path.join(__dirname, './.env') })
+require("dotenv").config()
 const moviesRouter = require('./routers/moviesRoutes');
 const actorsRouter = require('./routers/actorRoutes');
 const genreRouter = require('./routers/genreRoutes');
