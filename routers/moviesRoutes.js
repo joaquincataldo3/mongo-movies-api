@@ -3,10 +3,10 @@ const controller = require('../controllers/moviesController');
 const uploadImages = require('../middlewares/movieMulterMiddleware');
 const router = express.Router();
 
-router.get('/all', controller.allMovies);
+router.get('/', controller.allMovies);
 router.get('/:id', controller.findOne);
 
-router.post('/newMovie', controller.createMovie);
+router.post('/newMovie', uploadImages.single('image'), controller.createMovie);
 
 router.put('/update/:id', controller.updateMovie);
 

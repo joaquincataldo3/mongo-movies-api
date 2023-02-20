@@ -5,8 +5,7 @@ const controller = {
     // find all movies
     allMovies: async (req, res) => {
         try {
-            
-            return res.json({msg: 'live'})
+
 
             // making the pagination
             const pages = req.query.p; // catching the req.query
@@ -44,7 +43,10 @@ const controller = {
             const movieId = req.params.id;
 
             if (ObjectId.isValid(movieId)) {
-                const movieToFind = await Movie.findById(movieId);
+                const movieToFind = await Movie
+                .findById(movieId)
+                .populate('actors')
+                
 
                 if (!movieToFind) {
                     return res.status(404).json({ msg: 'Movie not found' })
@@ -67,16 +69,14 @@ const controller = {
     createMovie: async (req, res) => {
         try {
 
-       
-
-          const titleInBody = req.body.title;
+            const titleInBody = req.body.title;
             const lengthInBody = req.body.length;
             const ratingInBody = req.body.rating;
             const releaseDateInBody = req.body.releaseDate;
-            const imageInBody = req.file.path; 
+            const imageInBody = req.file.path;
 
 
-            if (!(titleInBody || lengthInBody || ratingInBody || releaseDateInBody || imageInBody)) {
+            if (!titleInBody || !lengthInBody || !ratingInBody || !releaseDateInBody || !imageInBody) {
                 res.status(400).json({ msg: 'Please complete all the text fields' })
             }
 
@@ -105,7 +105,7 @@ const controller = {
 
             const movieToFind = await Movie.findById(movieIdToUpdate)
 
-            if(!movieToFind) {           
+            if (!movieToFind) {
                 return res.status(404).json({ msg: 'Movie not found' })
             }
 

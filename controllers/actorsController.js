@@ -6,13 +6,13 @@ const controller = {
     createActor: async (req, res) => {
         try {
 
-            const fullName = req.body.fullName;
+            const bodyFullName = req.body.fullName;
            
-            if (!fullName) {
+            if (!bodyFullName) {
                 return res.status(400).json({ msg: 'Please complete the text field' })
             } 
 
-            const newActor = await Actor.create(fullName)
+            const newActor = await Actor.create({fullName: bodyFullName})
             return res.status(201).json(newActor);
         } catch (error) {
 
