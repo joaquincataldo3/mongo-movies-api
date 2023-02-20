@@ -1,14 +1,13 @@
-require('dotenv').config();
 const express = require('express');
 const mongoose = require('mongoose');
 const path = require('path')
+require("dotenv").config({path: path.join(__dirname, './.env') })
 const moviesRouter = require('./routers/moviesRoutes');
 const actorsRouter = require('./routers/actorRoutes');
 const genreRouter = require('./routers/genreRoutes');
 
-
 const app = express();
-
+const {MONGO_URI} = process.env
 
 app.set('view engine', 'ejs')
 
@@ -25,9 +24,11 @@ app.get('/', (req, res) => {
     return res.render('../index.ejs')
 })
 
+console.log(MONGO_URI)
+
 mongoose.Promise = global.Promise;
 mongoose.set('strictQuery', false)
-mongoose.connect(process.env.MONGO_URI)
+mongoose.connect(MONGO_URI)
     .then(() => {
         console.log('Mongo DB Connected');
         const PORT = process.env.PORT || 3010;
