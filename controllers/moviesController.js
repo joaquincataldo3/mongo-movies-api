@@ -9,15 +9,23 @@ const controller = {
             const pages = req.query.p; // catching the req.query
             const filterByQueryParams = req.query.f;
             const moviePerPage = 3;
-            if (!filterByQueryParams) {
+            if(!pages) {
+                const allMovies = await Movie
+                    .find()
+                    .populate('genre')
+                    .populate('actors');  
+                return res.json(allMovies);
+            }
+            if (pages) {
                 const allMovies = await Movie
                     .find()
                     .skip(pages * moviePerPage) // pages could be 0, 1, 2 etc. times the movie per page
                     .limit(3) // limiting it to 3 movies per page    
+                    .populate('genre')  
                     .populate('actors');  
                 return res.json(allMovies);
             }
-            else if (filterByQueryParams == "rating") {
+            if (filterByQueryParams == "rating") {
                 const allMoviesFilteredByRating = await Movie
                     .find()
                     .skip(pages * moviePerPage)
@@ -26,7 +34,7 @@ const controller = {
                     .populate('actors');
                 return res.json(allMoviesFilteredByRating);
             }
-            else if (filterByQueryParams == "length") {
+            if (filterByQueryParams == "length") {
                 const allMoviesFilteredByLength = await Movie
                     .find()
                     .skip(pages * moviePerPage)
@@ -57,7 +65,7 @@ const controller = {
 
                 return res.status(200).json(movieFound)
 
-            } else {
+            } {
                 return res.status(400).json({
                     msg: 'Movie ID invalid'
                 });
