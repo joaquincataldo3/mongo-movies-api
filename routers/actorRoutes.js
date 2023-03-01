@@ -6,7 +6,7 @@ router.get('/', controller.fetchActors);
 
 router.post('/newActor', controller.createActor);
 
-router.post('/push', controller.pushActorsInMovie);
+router.put('/push', controller.pushActorsInMovie);
 
 router.put('/deleteInMovie', controller.deleteActorInMovie);
 

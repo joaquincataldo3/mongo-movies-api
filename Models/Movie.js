@@ -26,9 +26,9 @@ const movieSchema = new Schema({
         type: String,
         required: true     
     },
-    genre: {
-        type: Types.ObjectId, ref: 'Genre'
-    },
+    genre: [{
+        type: Types.ObjectId, ref: 'Genre'   
+    }],
     actors:[{
         type: Types.ObjectId, ref: 'Actor'   
     }],

@@ -52,9 +52,8 @@ const controller = {
             const movieFound = movieToFind
             const actorFound = actorToFind;
 
-            const movieUpdated = await Movie.findByIdAndUpdate({
-                _id: movieId
-            }, {
+            const movieUpdated = await Movie.findByIdAndUpdate(movieId, 
+                {
                 $addToSet: { // it pushes the actor in case is not found
                     actors: actorFound
                 },

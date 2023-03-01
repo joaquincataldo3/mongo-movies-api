@@ -13,8 +13,8 @@ const controller = {
                 const allMovies = await Movie
                     .find()
                     .skip(pages * moviePerPage) // pages could be 0, 1, 2 etc. times the movie per page
-                    .limit(3)
-                    .populate('actors');  // limiting it to 3 movies per page    
+                    .limit(3) // limiting it to 3 movies per page    
+                    .populate('actors');  
                 return res.json(allMovies);
             }
             else if (filterByQueryParams == "rating") {

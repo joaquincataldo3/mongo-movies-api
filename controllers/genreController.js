@@ -1,4 +1,5 @@
 const Genre = require('../Models/Genre');
+const Movie = require('../Models/Movie');
 const { ObjectId } = require('mongodb');
 
 
@@ -11,7 +12,9 @@ const controller = {
                 return res.status(400).json({msg: 'Please type the genre name'})
             }
 
-            const newGenre = await Genre.create(genreInBody) 
+            const newGenre = await Genre.create({
+                name: genreInBody
+            }) 
 
             return res.status(201).json(newGenre);
 
@@ -40,6 +43,42 @@ const controller = {
             const genreUpdated = genreToUpdate
 
             return res.status(201).json(genreUpdated);
+            
+        } catch (error) {
+            console.log(error);
+            return res.status(400).json({msg:'There was an error while creating the genre'})
+        }
+    },
+    pushGenreInMovie: async (req, res) => {
+        try {
+            const movieId = req.query.m
+            const genreId = req.query.g;
+
+            if(!ObjectId.isValid(genreId) || !ObjectId.isValid(movieId)) {
+                return res.status(400).json({msg: 'Genre ID or Movie ID invalid'})
+            }
+
+            const movieToFind = await Movie.findById(movieId);
+            const genreToFind = await Genre.findById(genreId);
+
+            if (!movieToFind || !genreToFind) {
+                return res.status(404).json({ msg: 'Movie or Actor not found' })
+            }
+
+            const movie = movieToFind
+            const genre = genreToFind
+
+            const pushGenre = await Movie.findByIdAndUpdate(movieId, {
+                $addToSet: {
+                    genre: genre
+                }
+            },{
+                new: true
+            })
+
+            const genrePushedInMovie = pushGenre
+
+            return res.status(201).json(genrePushedInMovie);
             
         } catch (error) {
             console.log(error);
