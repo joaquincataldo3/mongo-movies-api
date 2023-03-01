@@ -35,7 +35,3 @@ app.use('/movies', moviesRouter);
 app.use('/genres', genreRouter);
 
 
-app.get('/', (req, res) => {
-    return res.json({ msg: 'Success' })
-})
-
