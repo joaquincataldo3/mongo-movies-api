@@ -5,16 +5,18 @@ require("dotenv").config()
 const moviesRouter = require('./routers/moviesRoutes');
 const actorsRouter = require('./routers/actorRoutes');
 const genreRouter = require('./routers/genreRoutes');
+const cors = require('cors')
 
 const app = express();
 const { MONGO_URI } = process.env
 
 app.set('view engine', 'ejs')
 
+app.use(cors())
 app.use('/movies-images', express.static(path.join(__dirname, "./imagesUploads")));
-
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
+
 
 mongoose.set('strictQuery', false)
 mongoose.connect(MONGO_URI)
