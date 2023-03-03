@@ -33,7 +33,7 @@ mongoose.connect(MONGO_URI)
     });
 
 app.use('/actors', actorsRouter);
-app.use('/', moviesRouter);
+app.use('/movies', moviesRouter);
 app.use('/genres', genreRouter);
 
 
