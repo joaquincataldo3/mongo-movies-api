@@ -1,5 +1,5 @@
-const {mongoose, Schema, Types} = require('mongoose');
-
+const mongoose = require('mongoose');
+const Schema = mongoose.Schema;
 
 // setting up new mongoose schema
 const GenreSchema = new Schema({
